@@ -35,8 +35,8 @@ jobs:
       - name: Validate Environment Variables
         run: node scripts/validate-env.mjs
         env:
-          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID || 'angappbackery-216fe' }}
-          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY || 'AIzaSyBysvq_56k58-RzPjPfm3pqvzi2sRckyvk' }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID || 'angappbackery-a2e42' }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY || 'AIzaSyCEvNo9AtgHfib034izKeOLgWTAptfS780' }}
 
       - name: Strict TypeScript Compilation
         run: npx tsc --noEmit
@@ -73,8 +73,8 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANGAPPBACKERY_216FE }}
-          projectId: angappbackery-216fe
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANGAPPBACKERY_A2E42 }}
+          projectId: angappbackery-a2e42
           expires: 7d
 
   # =========================================================================
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Production
-      url: https://angappbackery-216fe.web.app
+      url: https://angappbackery-a2e42.web.app
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v4
@@ -102,6 +102,6 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANGAPPBACKERY_216FE }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANGAPPBACKERY_A2E42 }}
           channelId: live
-          projectId: angappbackery-216fe
+          projectId: angappbackery-a2e42

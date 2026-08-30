@@ -7,13 +7,13 @@ import { routes } from './app.routes';
 import { GlobalErrorHandler } from './services/error-handler.service';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBysvq_56k58-RzPjPfm3pqvzi2sRckyvk",
-  authDomain: "angappbackery-216fe.firebaseapp.com",
-  projectId: "angappbackery-216fe",
-  storageBucket: "angappbackery-216fe.firebasestorage.app",
-  messagingSenderId: "434250655992",
-  appId: "1:434250655992:web:0e4458efc44602671a730d",
-  measurementId: "G-GBY79TFGQP"
+  apiKey: "AIzaSyCEvNo9AtgHfib034izKeOLgWTAptfS780",
+  authDomain: "angappbackery-a2e42.firebaseapp.com",
+  projectId: "angappbackery-a2e42",
+  storageBucket: "angappbackery-a2e42.firebasestorage.app",
+  messagingSenderId: "659870441846",
+  appId: "1:659870441846:web:a1637fcb89b7639d641a57",
+  measurementId: "G-ZNBWDGBHCP"
 };
 
 export const appConfig: ApplicationConfig = {
