@@ -30,7 +30,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Clean Dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Validate Environment Variables
         run: node scripts/validate-env.mjs
