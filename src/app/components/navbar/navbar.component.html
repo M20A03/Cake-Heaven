@@ -60,7 +60,9 @@
       <button 
         type="button" 
         class="mobile-toggle" 
+        [class.open]="isMobileMenuOpen()"
         (click)="toggleMobileMenu()" 
+        [attr.aria-expanded]="isMobileMenuOpen()"
         aria-label="Toggle navigation menu"
       >
         <span class="hamburger-bar"></span>
@@ -70,31 +72,47 @@
     </div>
   </div>
 
+  <!-- Mobile Backdrop Overlay -->
+  @if (isMobileMenuOpen()) {
+    <div class="mobile-backdrop" (click)="closeMobileMenu()" aria-hidden="true"></div>
+  }
+
   <!-- Mobile Navigation Drawer -->
   @if (isMobileMenuOpen()) {
     <div class="mobile-drawer animate-fade-in">
       <ul class="mobile-nav-links">
         <li>
           <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileMenu()">
-            Home
+            <span>🏠 Home</span>
           </a>
         </li>
         <li>
           <a routerLink="/products" routerLinkActive="active" (click)="closeMobileMenu()">
-            Cakes & Menu
+            <span>🍰 Cakes & Menu</span>
           </a>
         </li>
         <li>
           <a routerLink="/order" routerLinkActive="active" (click)="closeMobileMenu()">
-            Order Now
+            <span>🛒 Order Now (Checkout)</span>
           </a>
         </li>
         <li>
           <a routerLink="/history" routerLinkActive="active" (click)="closeMobileMenu()">
-            Track Orders
+            <span>📍 Live Order Tracking</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/customers" routerLinkActive="active" (click)="closeMobileMenu()">
+            <span>👤 Customer Profile & Dietary</span>
           </a>
         </li>
       </ul>
+      <div class="mobile-drawer-footer">
+        <div class="drawer-contact">
+          <small>Need Help? Call Bakery Hotline:</small>
+          <a href="tel:+919876543210" class="hotline-link">📞 +91 98765 43210</a>
+        </div>
+      </div>
     </div>
   }
 </header>

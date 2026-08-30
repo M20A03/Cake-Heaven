@@ -1,11 +1,16 @@
 .customer-page {
   padding-top: var(--space-8);
   padding-bottom: var(--space-16);
+
+  @media (max-width: 768px) {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-12);
+  }
 }
 
 .page-header {
   text-align: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
 
   .badge-subtitle {
     display: inline-block;
@@ -21,12 +26,11 @@
   }
 
   .page-title {
-    font-size: var(--font-size-3xl);
     margin-bottom: var(--space-2);
   }
 
   .page-subtitle {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
     color: var(--text-secondary);
   }
 }
@@ -36,6 +40,10 @@
   margin: 0 auto;
   padding: var(--space-8);
 
+  @media (max-width: 580px) {
+    padding: var(--space-4);
+  }
+
   .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -43,6 +51,7 @@
 
     @media (max-width: 580px) {
       grid-template-columns: 1fr;
+      gap: 0;
     }
   }
 
@@ -66,13 +75,20 @@
       background: var(--bg-surface-subtle);
       color: var(--text-primary);
       font-family: var(--font-family-sans);
-      font-size: var(--font-size-sm);
+      font-size: 16px;
       outline: none;
 
       &:focus {
         border-color: var(--color-primary);
         box-shadow: 0 0 0 3px var(--color-primary-subtle);
       }
+    }
+  }
+
+  button[type='submit'] {
+    @media (max-width: 580px) {
+      width: 100%;
+      min-height: 48px;
     }
   }
 }

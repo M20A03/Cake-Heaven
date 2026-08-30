@@ -1,6 +1,6 @@
 .toast-container {
   position: fixed;
-  bottom: var(--space-6);
+  bottom: calc(var(--space-6) + var(--safe-area-bottom));
   right: var(--space-6);
   z-index: 9999;
   display: flex;
@@ -9,6 +9,15 @@
   max-width: 400px;
   width: calc(100vw - 32px);
   pointer-events: none;
+
+  @media (max-width: 600px) {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(var(--space-4) + var(--safe-area-bottom));
+    width: calc(100vw - 24px);
+    max-width: 420px;
+  }
 }
 
 .toast-card {
