@@ -1,0 +1,106 @@
+.toast-container {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 400px;
+  width: calc(100vw - 32px);
+  pointer-events: none;
+}
+
+.toast-card {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-xl);
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+
+  &.toast-success {
+    border-left: 4px solid var(--color-success);
+    .toast-icon { background: rgba(42, 157, 143, 0.15); color: var(--color-success); }
+  }
+
+  &.toast-error {
+    border-left: 4px solid var(--color-error);
+    .toast-icon { background: rgba(230, 57, 70, 0.15); color: var(--color-error); }
+  }
+
+  &.toast-warning {
+    border-left: 4px solid var(--color-warning);
+    .toast-icon { background: rgba(244, 162, 97, 0.15); color: var(--color-warning); }
+  }
+
+  &.toast-info {
+    border-left: 4px solid var(--color-info);
+    .toast-icon { background: rgba(69, 123, 157, 0.15); color: var(--color-info); }
+  }
+}
+
+.toast-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+}
+
+.toast-content {
+  flex: 1;
+
+  .toast-title {
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .toast-message {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    line-height: var(--line-height-normal);
+  }
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: var(--space-1);
+  font-size: var(--font-size-sm);
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

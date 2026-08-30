@@ -1,0 +1,101 @@
+<div class="history-page container">
+  <div class="page-header">
+    <div class="header-flex">
+      <div>
+        <span class="badge-subtitle">Real-Time Kitchen Updates</span>
+        <h1 class="page-title">Live Order Tracking & History</h1>
+        <p class="page-subtitle">Track the status of your freshly baked gourmet cakes from oven to doorstep.</p>
+      </div>
+      <button type="button" class="btn btn-outline refresh-btn" (click)="refresh()">
+        🔄 Refresh Status
+      </button>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="orders-list">
+      @for (i of [1, 2]; track i) {
+        <div class="order-card card skeleton-order">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+            <app-skeleton width="30%" height="24px"></app-skeleton>
+            <app-skeleton width="20%" height="24px" borderRadius="var(--radius-full)"></app-skeleton>
+          </div>
+          <app-skeleton width="60%" height="16px"></app-skeleton>
+          <div style="margin-top: 12px;">
+            <app-skeleton width="100%" height="40px"></app-skeleton>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    @if (orders().length > 0) {
+      <div class="orders-list">
+        @for (order of orders(); track order.idempotencyKey) {
+          <div class="order-card card animate-fade-in">
+            <div class="order-card-header">
+              <div>
+                <span class="order-id">Order Ref: <strong>#{{ (order.id || order.idempotencyKey).substring(0, 8) }}</strong></span>
+                <span class="order-date">{{ order.createdAt | date: 'medium' }}</span>
+              </div>
+              <span class="status-badge status-{{ order.status.toLowerCase().replace(' ', '-') }}">
+                ● {{ order.status }}
+              </span>
+            </div>
+
+            <div class="order-card-body">
+              <div class="order-items">
+                <h4>Items Ordered</h4>
+                <p class="item-names">{{ order.cakeName }} (Qty: {{ order.quantity }})</p>
+                @if (order.specialNotes) {
+                  <p class="special-notes"><em>"{{ order.specialNotes }}"</em></p>
+                }
+              </div>
+
+              <div class="order-meta">
+                <div class="meta-block">
+                  <span class="meta-label">Recipient</span>
+                  <span class="meta-val">{{ order.customerName }} ({{ order.customerPhone }})</span>
+                </div>
+                <div class="meta-block">
+                  <span class="meta-label">Delivery Address</span>
+                  <span class="meta-val">{{ order.deliveryAddress }}</span>
+                </div>
+                <div class="meta-block">
+                  <span class="meta-label">Total Amount</span>
+                  <span class="meta-val total-price">₹{{ order.totalAmount.toFixed(2) }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Progress Tracker -->
+            <div class="tracking-progress">
+              <div class="step active">
+                <div class="step-dot"></div>
+                <span>Order Placed</span>
+              </div>
+              <div class="step active">
+                <div class="step-dot"></div>
+                <span>Kitchen Baking</span>
+              </div>
+              <div class="step">
+                <div class="step-dot"></div>
+                <span>Out for Delivery</span>
+              </div>
+              <div class="step">
+                <div class="step-dot"></div>
+                <span>Delivered</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty-state card">
+        <span class="empty-icon">📦</span>
+        <h3>No Recent Orders Found</h3>
+        <p>You have not placed any orders from this device yet.</p>
+        <a routerLink="/products" class="btn btn-primary">Browse Cakes & Place an Order →</a>
+      </div>
+    }
+  }
+</div>

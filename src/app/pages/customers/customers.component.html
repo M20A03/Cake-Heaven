@@ -1,0 +1,47 @@
+<div class="customer-page container">
+  <div class="page-header">
+    <span class="badge-subtitle">Account & Preferences</span>
+    <h1 class="page-title">Customer Profile</h1>
+    <p class="page-subtitle">Manage your contact details, dietary preferences, and saved delivery addresses.</p>
+  </div>
+
+  <div class="profile-card card">
+    <form (ngSubmit)="saveProfile()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cname">Full Name</label>
+          <input type="text" id="cname" name="name" [(ngModel)]="customer.name" required />
+        </div>
+        <div class="form-group">
+          <label for="cemail">Email Address</label>
+          <input type="email" id="cemail" name="email" [(ngModel)]="customer.email" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cphone">Phone Number</label>
+          <input type="tel" id="cphone" name="phone" [(ngModel)]="customer.phone" required />
+        </div>
+        <div class="form-group">
+          <label for="cdiet">Dietary Preference</label>
+          <select id="cdiet" name="diet" [(ngModel)]="customer.dietaryPreference">
+            <option value="Eggless">100% Eggless</option>
+            <option value="Standard">Standard (With Egg)</option>
+            <option value="SugarFree">Sugar-Free / Keto</option>
+            <option value="GlutenFree">Gluten-Free</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="caddress">Default Delivery Address</label>
+        <textarea id="caddress" name="address" [(ngModel)]="customer.savedAddress" rows="3"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+        {{ isSaving() ? 'Saving Changes...' : 'Save Preferences' }}
+      </button>
+    </form>
+  </div>
+</div>

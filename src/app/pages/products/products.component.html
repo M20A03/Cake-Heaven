@@ -1,0 +1,151 @@
+<div class="products-page container">
+  <!-- Header & Description -->
+  <div class="page-header">
+    <span class="badge-subtitle">Artisanal Bakery Collection</span>
+    <h1 class="page-title">Handcrafted Gourmet Cakes</h1>
+    <p class="page-subtitle">
+      Made daily from scratch with 100% natural ingredients, Belgian chocolate, and pure butter.
+    </p>
+  </div>
+
+  <!-- Search, Filter & Sort Controls (Stateful) -->
+  <div class="controls-toolbar card">
+    <!-- Category Filter Pills -->
+    <div class="category-pills" role="tablist" aria-label="Cake Categories">
+      @for (cat of categories; track cat) {
+        <button
+          type="button"
+          class="pill-btn"
+          [class.active]="selectedCategory() === cat"
+          (click)="setCategory(cat)"
+          role="tab"
+          [attr.aria-selected]="selectedCategory() === cat"
+        >
+          {{ cat }}
+        </button>
+      }
+    </div>
+
+    <!-- Search Input & Sort Dropdown -->
+    <div class="search-sort-group">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          placeholder="Search by cake name or flavor..."
+          [ngModel]="searchQuery()"
+          (ngModelChange)="onSearchChange($event)"
+          aria-label="Search cakes"
+        />
+        @if (searchQuery()) {
+          <button type="button" class="clear-search" (click)="onSearchChange('')" aria-label="Clear search">✕</button>
+        }
+      </div>
+
+      <div class="sort-box">
+        <label for="sort-select" class="sort-label">Sort by:</label>
+        <select
+          id="sort-select"
+          [ngModel]="sortBy()"
+          (ngModelChange)="onSortChange($event)"
+        >
+          <option value="popular">Most Popular</option>
+          <option value="rating">Top Rated</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Skeletons -->
+  @if (isLoading()) {
+    <div class="products-grid">
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div class="product-card skeleton-card">
+          <app-skeleton height="220px" borderRadius="var(--radius-xl) var(--radius-xl) 0 0"></app-skeleton>
+          <div class="product-info">
+            <app-skeleton width="40%" height="16px" borderRadius="var(--radius-sm)"></app-skeleton>
+            <div style="margin-top: 8px;">
+              <app-skeleton width="80%" height="24px" borderRadius="var(--radius-sm)"></app-skeleton>
+            </div>
+            <div style="margin-top: 8px;">
+              <app-skeleton width="100%" height="14px"></app-skeleton>
+              <div style="margin-top: 4px;">
+                <app-skeleton width="65%" height="14px"></app-skeleton>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; justify-content: space-between;">
+              <app-skeleton width="30%" height="28px"></app-skeleton>
+              <app-skeleton width="40%" height="36px" borderRadius="var(--radius-full)"></app-skeleton>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <!-- Products Grid -->
+    @if (filteredProducts().length > 0) {
+      <div class="products-grid">
+        @for (product of filteredProducts(); track product.id) {
+          <div class="product-card" (click)="openProductModal(product)" tabindex="0" (keydown.enter)="openProductModal(product)">
+            <div class="card-image-wrap">
+              <img
+                [src]="product.image"
+                [alt]="product.name"
+                class="product-image"
+                loading="lazy"
+                width="400"
+                height="240"
+              />
+              @if (product.isBestSeller) {
+                <span class="card-badge">★ Chef's Special</span>
+              }
+              <div class="quick-view-hint">Quick View</div>
+            </div>
+
+            <div class="product-info">
+              <div class="card-meta">
+                <span class="product-cat">{{ product.category }}</span>
+                <span class="product-rating">★ {{ product.rating }} ({{ product.reviewCount }})</span>
+              </div>
+              <h3 class="product-title">{{ product.name }}</h3>
+              <p class="product-desc">{{ product.description }}</p>
+
+              <div class="price-action">
+                <div class="price-box">
+                  <span class="price-currency">₹</span>
+                  <span class="price-amount">{{ product.price.toFixed(2) }}</span>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary add-btn"
+                  (click)="quickAddToCart(product, $event)"
+                  aria-label="Add to cart"
+                >
+                  Add +
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <!-- Empty State -->
+      <div class="empty-state card">
+        <span class="empty-icon">🎂</span>
+        <h3>No Cakes Found</h3>
+        <p>We couldn't find any cakes matching your search criteria.</p>
+        <button type="button" class="btn btn-outline" (click)="setCategory('All'); onSearchChange('')">
+          Reset Filters
+        </button>
+      </div>
+    }
+  }
+
+  <!-- Intercepted / Deep-Linked Product Modal -->
+  <app-product-modal
+    [product]="activeModalProduct()"
+    (close)="closeProductModal()"
+  ></app-product-modal>
+</div>

@@ -1,0 +1,107 @@
+name: Enterprise CI/CD Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # =========================================================================
+  # STAGE 1: QUALITY GATE (Lint, Strict Type-Check, Env Validation & Unit Tests)
+  # =========================================================================
+  quality_gate:
+    name: Quality Gate & Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Clean Dependencies
+        run: npm ci
+
+      - name: Validate Environment Variables
+        run: node scripts/validate-env.mjs
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID || 'angappbackery-216fe' }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY || 'AIzaSyBysvq_56k58-RzPjPfm3pqvzi2sRckyvk' }}
+
+      - name: Strict TypeScript Compilation
+        run: npx tsc --noEmit
+
+      - name: Build Application Bundle (Production)
+        run: npm run build -- --configuration production
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-dist
+          path: dist/cake-heaven/browser
+          retention-days: 3
+
+  # =========================================================================
+  # STAGE 2: STAGING PREVIEW DEPLOYMENT (For Pull Requests)
+  # =========================================================================
+  deploy_staging:
+    name: Deploy to Staging Preview
+    needs: quality_gate
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: app-dist
+          path: dist/cake-heaven/browser
+
+      - name: Deploy to Firebase Preview Channel
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANGAPPBACKERY_216FE }}
+          projectId: angappbackery-216fe
+          expires: 7d
+
+  # =========================================================================
+  # STAGE 3: PRODUCTION PROMOTION (On Merge to Main)
+  # =========================================================================
+  deploy_production:
+    name: Deploy to Production (Live)
+    needs: quality_gate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: https://angappbackery-216fe.web.app
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: app-dist
+          path: dist/cake-heaven/browser
+
+      - name: Deploy to Firebase Live Production Channel
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANGAPPBACKERY_216FE }}
+          channelId: live
+          projectId: angappbackery-216fe

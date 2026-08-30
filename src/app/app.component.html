@@ -1,0 +1,51 @@
+<div class="app-layout">
+  <!-- Sticky Global Navigation -->
+  <app-navbar></app-navbar>
+
+  <!-- Router Outlet Container -->
+  <main class="main-content" id="main-content" role="main">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="app-footer">
+    <div class="footer-container container">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <span class="brand-emoji">🍰</span>
+          <span class="brand-name">Cake Heaven</span>
+        </div>
+        <p class="brand-tagline">
+          Handcrafted artisanal cakes & fine pastries baked fresh every day with genuine Belgian chocolate and organic fruits.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore Menu</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/products" [queryParams]="{ category: 'Chocolate' }">Chocolate Truffles</a></li>
+          <li><a routerLink="/products" [queryParams]="{ category: 'Velvet' }">Red Velvet Cakes</a></li>
+          <li><a routerLink="/products" [queryParams]="{ category: 'Fruit' }">Cheesecakes & Berries</a></li>
+          <li><a routerLink="/products" [queryParams]="{ category: 'Specialty' }">Custom Celebration Cakes</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/order">Place an Order</a></li>
+          <li><a routerLink="/history">Track Your Cake</a></li>
+          <li><a routerLink="/customers">Dietary Preferences</a></li>
+          <li><a href="tel:+919876543210">Bakery Hotline: +91 98765 43210</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom container">
+      <p>© {{ currentYear }} Cake Heaven Bakery Pvt. Ltd. All rights reserved. 100% Eggless Certified.</p>
+    </div>
+  </footer>
+
+  <!-- Global Toast Notification Layer -->
+  <app-toast></app-toast>
+</div>

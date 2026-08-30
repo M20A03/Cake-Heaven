@@ -1,0 +1,47 @@
+@if (product) {
+  <div class="modal-backdrop" (click)="closeModal()" aria-hidden="true"></div>
+  <div class="modal-dialog" role="dialog" [attr.aria-label]="product.name" aria-modal="true">
+    <button type="button" class="modal-close" (click)="closeModal()" aria-label="Close modal">✕</button>
+    <div class="modal-body">
+      <div class="modal-image-col">
+        <img [src]="product.image" [alt]="product.name" class="modal-product-img" loading="eager">
+        @if (product.isBestSeller) {
+          <span class="badge-bestseller">★ Best Seller</span>
+        }
+      </div>
+      <div class="modal-info-col">
+        <div class="modal-header">
+          <span class="category-tag">{{ product.category }}</span>
+          <div class="rating-stars">
+            <span class="star">★</span>
+            <span class="score">{{ product.rating }}</span>
+            <span class="count">({{ product.reviewCount }} reviews)</span>
+          </div>
+        </div>
+        <h2 class="modal-title">{{ product.name }}</h2>
+        <p class="modal-price">₹{{ product.price.toFixed(2) }}</p>
+        <p class="modal-description">{{ product.description }}</p>
+
+        <div class="modal-features">
+          <div class="feature-badge">🍰 100% Eggless & Fresh</div>
+          <div class="feature-badge">⚡ Delivery within 2 Hours</div>
+        </div>
+
+        <div class="modal-actions">
+          <div class="qty-stepper">
+            <button type="button" (click)="decrement()" [disabled]="selectedQuantity <= 1" aria-label="Decrease quantity">−</button>
+            <span class="qty-val">{{ selectedQuantity }}</span>
+            <button type="button" (click)="increment()" [disabled]="selectedQuantity >= 10" aria-label="Increase quantity">+</button>
+          </div>
+          <button type="button" class="btn btn-primary add-cart-btn" (click)="addToCart()" [disabled]="isAdding">
+            @if (isAdding) {
+              <span>Adding...</span>
+            } @else {
+              <span>Add to Cart • ₹{{ (product.price * selectedQuantity).toFixed(2) }}</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

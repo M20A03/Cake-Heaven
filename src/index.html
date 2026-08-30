@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Cake Heaven | Artisanal Bakery & Custom Cakes</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta name="description" content="Order handcrafted artisanal cakes, truffles, and gourmet pastries fresh to your door with same-day delivery.">
+  <meta name="theme-color" content="#e63946" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1117" media="(prefers-color-scheme: dark)">
+
+  <!-- Zero-FOUC Theme Execution Script (Must run synchronously before DOM render) -->
+  <script>
+    (function () {
+      try {
+        var storedTheme = localStorage.getItem('cakeheaven_theme');
+        var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = storedTheme ? storedTheme : (systemPrefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+
+  <!-- Preconnect and Preload Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

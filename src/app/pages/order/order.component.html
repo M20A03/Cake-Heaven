@@ -1,0 +1,202 @@
+<div class="order-page container">
+  <div class="page-header">
+    <span class="badge-subtitle">Express Bakery Checkout</span>
+    <h1 class="page-title">Place Your Gourmet Order</h1>
+    <p class="page-subtitle">Freshly baked, beautifully packaged, and safely delivered directly to your doorstep.</p>
+  </div>
+
+  @if (isOrderSuccess()) {
+    <!-- Success Confirmation View -->
+    <div class="success-card card animate-fade-in">
+      <div class="success-icon">🎉</div>
+      <h2>Order Placed Successfully!</h2>
+      <p class="order-ref">Order Reference: <strong>#{{ lastOrderId() }}</strong></p>
+      <p class="success-desc">
+        Thank you for ordering with Cake Heaven! Our chef is already hand-crafting your freshly baked cake.
+        You can track the live baking and delivery status at any time.
+      </p>
+      <div class="success-actions">
+        <button type="button" class="btn btn-primary" (click)="trackOrder()">
+          Live Order Tracking →
+        </button>
+        <button type="button" class="btn btn-outline" (click)="isOrderSuccess.set(false)">
+          Order Another Cake
+        </button>
+      </div>
+    </div>
+  } @else {
+    <!-- Main Order Layout: Grid with Cart Summary & Form -->
+    <div class="order-grid">
+      <!-- Left Column: Cart Summary -->
+      <div class="cart-summary-card card">
+        <div class="card-header">
+          <h3>Your Basket Summary</h3>
+          @if (!cartService.isEmpty()) {
+            <button type="button" class="clear-btn" (click)="cartService.clearCart()">Clear</button>
+          }
+        </div>
+
+        @if (cartService.isEmpty()) {
+          <div class="empty-cart-hint">
+            <span class="cart-emoji">🛒</span>
+            <p>Your basket is currently empty.</p>
+            <small>Select from our menu or customize a cake below.</small>
+          </div>
+        } @else {
+          <div class="cart-items-list">
+            @for (item of cartService.items(); track item.id) {
+              <div class="cart-item">
+                <img [src]="item.image" [alt]="item.name" class="cart-item-img" />
+                <div class="cart-item-info">
+                  <h4 class="cart-item-name">{{ item.name }}</h4>
+                  <p class="cart-item-price">₹{{ item.price.toFixed(2) }}</p>
+                </div>
+                <div class="cart-item-stepper">
+                  <button type="button" (click)="cartService.updateQuantity(item.id, -1)">−</button>
+                  <span>{{ item.quantity }}</span>
+                  <button type="button" (click)="cartService.updateQuantity(item.id, 1)">+</button>
+                </div>
+                <button type="button" class="remove-btn" (click)="cartService.removeItem(item.id)" title="Remove">✕</button>
+              </div>
+            }
+          </div>
+
+          <div class="cart-totals">
+            <div class="total-row">
+              <span>Subtotal</span>
+              <span>₹{{ cartService.subtotal().toFixed(2) }}</span>
+            </div>
+            <div class="total-row">
+              <span>Delivery Fee</span>
+              <span>{{ cartService.deliveryFee() === 0 ? 'FREE' : '₹' + cartService.deliveryFee().toFixed(2) }}</span>
+            </div>
+            <div class="total-row grand-total">
+              <span>Total Payable</span>
+              <span>₹{{ cartService.total().toFixed(2) }}</span>
+            </div>
+          </div>
+        }
+
+        <div class="bakery-perks">
+          <div class="perk-item">✓ Zero Preservatives & 100% Fresh</div>
+          <div class="perk-item">✓ Contactless Thermal Insulated Delivery</div>
+          <div class="perk-item">✓ Free Custom Message Piping Included</div>
+        </div>
+      </div>
+
+      <!-- Right Column: Delivery Form Card -->
+      <div class="order-form-card card">
+        <div class="card-header">
+          <h3>Recipient & Delivery Details</h3>
+        </div>
+
+        <form (ngSubmit)="submitOrder()" #orderForm="ngForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name <span class="required">*</span></label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                [(ngModel)]="order.name"
+                #nameModel="ngModel"
+                required
+                placeholder="e.g. John Doe"
+                [class.is-invalid]="nameModel.invalid && nameModel.touched"
+              />
+              @if (nameModel.invalid && nameModel.touched) {
+                <span class="field-error">Full name is required.</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number <span class="required">*</span></label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                [(ngModel)]="order.phone"
+                #phoneModel="ngModel"
+                required
+                pattern="[0-9]{10}"
+                placeholder="10-digit mobile number"
+                [class.is-invalid]="phoneModel.invalid && phoneModel.touched"
+              />
+              @if (phoneModel.invalid && phoneModel.touched) {
+                <span class="field-error">Valid 10-digit phone number is required.</span>
+              }
+            </div>
+          </div>
+
+          @if (cartService.isEmpty()) {
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cake">Select Cake Flavor <span class="required">*</span></label>
+                <select id="cake" name="cake" [(ngModel)]="order.cake" required>
+                  @for (cake of availableCakes; track cake) {
+                    <option [value]="cake">{{ cake }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="quantity">Quantity (1 - 10) <span class="required">*</span></label>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  [(ngModel)]="order.quantity"
+                  min="1"
+                  max="10"
+                  required
+                />
+              </div>
+            </div>
+          }
+
+          <div class="form-group">
+            <label for="address">Complete Delivery Address <span class="required">*</span></label>
+            <textarea
+              id="address"
+              name="address"
+              [(ngModel)]="order.address"
+              #addressModel="ngModel"
+              rows="3"
+              required
+              placeholder="Flat/House No., Street Name, Landmark, City & Pincode"
+              [class.is-invalid]="addressModel.invalid && addressModel.touched"
+            ></textarea>
+            @if (addressModel.invalid && addressModel.touched) {
+              <span class="field-error">Delivery address is required.</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="notes">Special Message or Instructions (Optional)</label>
+            <textarea
+              id="notes"
+              name="notes"
+              [(ngModel)]="order.notes"
+              rows="2"
+              placeholder="e.g., Happy Birthday Anya! (Add 5 candles, please)"
+            ></textarea>
+          </div>
+
+          <!-- Submit Button with Idempotency & Loading Protection -->
+          <button
+            type="submit"
+            class="btn btn-primary submit-btn"
+            [disabled]="orderForm.invalid || isSubmitting()"
+          >
+            @if (isSubmitting()) {
+              <span class="spinner"></span>
+              <span>Securing Order...</span>
+            } @else {
+              <span>Confirm & Place Order →</span>
+            }
+          </button>
+        </form>
+      </div>
+    </div>
+  }
+</div>

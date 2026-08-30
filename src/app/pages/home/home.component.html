@@ -1,0 +1,148 @@
+<div class="home-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-container container">
+      <div class="hero-content">
+        <span class="hero-badge">✨ Handcrafted Artisanal Bakery</span>
+        <h1 class="hero-title">Baking Sweet Memories, One Slice at a Time</h1>
+        <p class="hero-subtitle">
+          Experience gourmet cakes made with 100% Belgian chocolate, farm-fresh berries, and pure Madagascar vanilla. Freshly baked every morning and delivered to your doorstep in 2 hours.
+        </p>
+
+        <div class="hero-actions">
+          <a routerLink="/products" class="btn btn-primary hero-btn">
+            Explore All Cakes →
+          </a>
+          <a routerLink="/order" class="btn btn-outline hero-btn">
+            Express Custom Order
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">50,000+</span>
+            <span class="stat-label">Cakes Delivered</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">4.9 ★</span>
+            <span class="stat-label">12,000+ Reviews</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Eggless & Natural</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="visual-card card">
+          <img
+            src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=85"
+            alt="Signature Belgian Chocolate Truffle Cake"
+            class="hero-cake-image"
+            fetchpriority="high"
+            width="500"
+            height="400"
+          />
+          <div class="floating-cake-tag">
+            <span class="cake-emoji">🍫</span>
+            <div>
+              <strong>Chef's Signature</strong>
+              <small>Artisan Belgian Truffle</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Value Pillars -->
+  <section class="pillars-section container">
+    <div class="pillars-grid">
+      <div class="pillar-card card">
+        <div class="pillar-icon">🧈</div>
+        <h3>100% Pure Butter</h3>
+        <p>Zero palm oil, zero shortening. Only pure dairy butter and rich cream in every crust.</p>
+      </div>
+
+      <div class="pillar-card card">
+        <div class="pillar-icon">🍓</div>
+        <h3>Organic Fresh Fruits</h3>
+        <p>Strawberries, blueberries, and citrus sourced directly from certified organic farms.</p>
+      </div>
+
+      <div class="pillar-card card">
+        <div class="pillar-icon">🍫</div>
+        <h3>Belgian Chocolate</h3>
+        <p>Premium Callebaut 70% dark chocolate ganache and authentic Dutch-process cocoa.</p>
+      </div>
+
+      <div class="pillar-card card">
+        <div class="pillar-icon">⚡</div>
+        <h3>2-Hour Express Delivery</h3>
+        <p>Baked on order and transported in temperature-controlled insulated packaging.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Signature Cakes -->
+  <section class="featured-section container">
+    <div class="section-header">
+      <span class="badge-subtitle">Most Loved Creations</span>
+      <h2>Signature Bakery Favorites</h2>
+      <p>Discover our award-winning cake recipes hand-crafted by master pastry chefs.</p>
+    </div>
+
+    <div class="featured-grid">
+      @for (cake of featuredCakes; track cake.id) {
+        <div class="featured-card card">
+          <div class="featured-img-wrap">
+            <img [src]="cake.image" [alt]="cake.name" loading="lazy" width="400" height="240" />
+            <span class="featured-rating">★ {{ cake.rating }}</span>
+          </div>
+          <div class="featured-body">
+            <span class="featured-category">{{ cake.category }}</span>
+            <h3 class="featured-title">{{ cake.name }}</h3>
+            <div class="featured-footer">
+              <span class="featured-price">₹{{ cake.price?.toFixed(2) }}</span>
+              <button type="button" class="btn btn-primary btn-sm" (click)="quickAdd(cake)">
+                Add to Cart +
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="view-all-wrap">
+      <a routerLink="/products" class="btn btn-outline">View Full Cake Menu (6+ Varieties) →</a>
+    </div>
+  </section>
+
+  <!-- Social Proof & Customer Reviews -->
+  <section class="testimonials-section container">
+    <div class="section-header">
+      <span class="badge-subtitle">Customer Love</span>
+      <h2>What Our Foodies Say</h2>
+      <p>Over 12,000 delighted cake lovers celebrating birthdays, anniversaries, and milestones.</p>
+    </div>
+
+    <div class="testimonials-grid">
+      @for (t of testimonials; track t.author) {
+        <div class="testimonial-card card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">“{{ t.quote }}”</p>
+          <div class="author-meta">
+            <div class="avatar">{{ t.author.charAt(0) }}</div>
+            <div>
+              <strong>{{ t.author }}</strong>
+              <small>{{ t.location }}</small>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+</div>

@@ -1,0 +1,100 @@
+<header class="navbar-header">
+  <div class="navbar-container">
+    <a routerLink="/" class="brand-logo" (click)="closeMobileMenu()">
+      <span class="logo-icon">🍰</span>
+      <span class="logo-text">Cake <span class="highlight">Heaven</span></span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="nav-menu" aria-label="Main Navigation">
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            Home
+          </a>
+        </li>
+        <li>
+          <a routerLink="/products" routerLinkActive="active">
+            Cakes & Menu
+          </a>
+        </li>
+        <li>
+          <a routerLink="/order" routerLinkActive="active">
+            Order Now
+          </a>
+        </li>
+        <li>
+          <a routerLink="/history" routerLinkActive="active">
+            Track Orders
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Header Actions (Theme Toggle & Cart) -->
+    <div class="header-actions">
+      <!-- Dark/Light Mode Switcher -->
+      <button 
+        type="button" 
+        class="theme-btn" 
+        (click)="toggleTheme()" 
+        [attr.aria-label]="themeService.currentTheme() === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+        title="Toggle Color Theme"
+      >
+        @if (themeService.currentTheme() === 'dark') {
+          <span class="theme-icon">☀️</span>
+        } @else {
+          <span class="theme-icon">🌙</span>
+        }
+      </button>
+
+      <!-- Cart Button / Badge -->
+      <a routerLink="/order" class="cart-btn" aria-label="Shopping Cart">
+        <span class="cart-icon">🛍️</span>
+        @if (cartService.itemCount() > 0) {
+          <span class="cart-count animate-fade-in">{{ cartService.itemCount() }}</span>
+        }
+      </a>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button 
+        type="button" 
+        class="mobile-toggle" 
+        (click)="toggleMobileMenu()" 
+        aria-label="Toggle navigation menu"
+      >
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Drawer -->
+  @if (isMobileMenuOpen()) {
+    <div class="mobile-drawer animate-fade-in">
+      <ul class="mobile-nav-links">
+        <li>
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileMenu()">
+            Home
+          </a>
+        </li>
+        <li>
+          <a routerLink="/products" routerLinkActive="active" (click)="closeMobileMenu()">
+            Cakes & Menu
+          </a>
+        </li>
+        <li>
+          <a routerLink="/order" routerLinkActive="active" (click)="closeMobileMenu()">
+            Order Now
+          </a>
+        </li>
+        <li>
+          <a routerLink="/history" routerLinkActive="active" (click)="closeMobileMenu()">
+            Track Orders
+          </a>
+        </li>
+      </ul>
+    </div>
+  }
+</header>

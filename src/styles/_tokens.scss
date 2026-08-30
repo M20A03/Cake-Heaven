@@ -1,0 +1,161 @@
+/* ==========================================================================
+   DESIGN TOKENS - CAKE HEAVEN DESIGN SYSTEM
+   Enforces:
+   1. 8px/4px Spacing Grid System
+   2. Modular Typographic Scale (1.250 Major Third)
+   3. Zero-FOUC Dark/Light Semantic Palettes
+   4. Elevation & Animation Curves
+   ========================================================================== */
+
+:root {
+  /* --- Typography Scale --- */
+  --font-family-serif: 'Playfair Display', Georgia, serif;
+  --font-family-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.563rem;  /* 25px */
+  --font-size-3xl: 1.953rem;  /* 31px */
+  --font-size-4xl: 2.441rem;  /* 39px */
+  --font-size-5xl: 3.052rem;  /* 49px */
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* --- 8px / 4px Spacing Grid --- */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  --space-20: 5rem;    /* 80px */
+  --space-24: 6rem;    /* 96px */
+
+  /* --- Border Radius Scale --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* --- Animation & Transitions --- */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* --- Light Theme (Default) --- */
+  --color-primary: #e63946;
+  --color-primary-hover: #d62828;
+  --color-primary-light: #ffccd5;
+  --color-primary-subtle: #fff0f3;
+
+  --color-secondary: #f77f00;
+  --color-secondary-hover: #d66800;
+
+  --color-accent: #ffb703;
+  --color-accent-hover: #e09f00;
+
+  --color-success: #2a9d8f;
+  --color-success-hover: #21867a;
+  --color-warning: #f4a261;
+  --color-error: #e63946;
+  --color-info: #457b9d;
+
+  /* Surfaces & Backgrounds */
+  --bg-app: #fff0f3;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --bg-surface-subtle: #fbf1f2;
+  --bg-overlay: rgba(15, 23, 42, 0.6);
+
+  /* Text & Content */
+  --text-primary: #1d2d44;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --text-inverse: #ffffff;
+
+  /* Borders & Dividers */
+  --border-subtle: #eedee0;
+  --border-strong: #d4c2c5;
+  --border-focus: #e63946;
+
+  /* Shadows (Light Mode) */
+  --shadow-sm: 0 1px 3px rgba(44, 19, 24, 0.08), 0 1px 2px rgba(44, 19, 24, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(44, 19, 24, 0.08), 0 2px 4px -1px rgba(44, 19, 24, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(44, 19, 24, 0.08), 0 4px 6px -2px rgba(44, 19, 24, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(44, 19, 24, 0.1), 0 10px 10px -5px rgba(44, 19, 24, 0.04);
+  --shadow-glow: 0 0 20px rgba(230, 57, 70, 0.35);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-blur: blur(12px);
+}
+
+/* --- Dark Theme Palette --- */
+[data-theme='dark'] {
+  --color-primary: #ff6b81;
+  --color-primary-hover: #ff4757;
+  --color-primary-light: #3a1c22;
+  --color-primary-subtle: #251417;
+
+  --color-secondary: #ffa502;
+  --color-secondary-hover: #ff7f00;
+
+  --color-accent: #ffd166;
+  --color-accent-hover: #ffb703;
+
+  --color-success: #2ec4b6;
+  --color-success-hover: #20a396;
+  --color-warning: #ff9f43;
+  --color-error: #ff5252;
+  --color-info: #70a1ff;
+
+  /* Surfaces & Backgrounds */
+  --bg-app: #0f1117;
+  --bg-surface: #1a1d26;
+  --bg-surface-elevated: #242936;
+  --bg-surface-subtle: #141720;
+  --bg-overlay: rgba(0, 0, 0, 0.8);
+
+  /* Text & Content */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-inverse: #0f1117;
+
+  /* Borders & Dividers */
+  --border-subtle: #2d3342;
+  --border-strong: #3f475a;
+  --border-focus: #ff6b81;
+
+  /* Shadows (Dark Mode) */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 25px rgba(255, 107, 129, 0.45);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(26, 29, 38, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(14px);
+}
