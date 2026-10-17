@@ -1,121 +1,89 @@
-# 🍰 Cake Heaven — Enterprise Artisanal Bakery E-Commerce Platform
+# Cake Heaven — Gourmet Confectionery & Pastry Store
 
-[![Angular](https://img.shields.io/badge/Angular-21.1-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
-[![Firebase](https://img.shields.io/badge/Firebase-Hosting%20%7C%20Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9%20Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Live Demo](https://img.shields.io/badge/Demo-Live%20Production-2ecc71?style=for-the-badge&logo=google-chrome&logoColor=white)](https://angappbackery-a2e42.web.app)
+<div align="center">
 
-> **Cake Heaven** is an enterprise-grade, full-stack bakery e-commerce and real-time order tracking platform built with **Angular 21 (Standalone Components & Signals)**, **Cloud Firestore**, and **Firebase Hosting**. Designed with an SRE mindset for zero-FOUC rendering, idempotent order transactions, stateful deep-linked routing, and resilient offline degradation.
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Active_200_OK-00C853?style=for-the-badge&logo=vercel&logoColor=white)](https://angappbackery-216fe.web.app/)
+![Platform](https://img.shields.io/badge/Platform-Firebase_Hosting-0070F3?style=for-the-badge)
+[![Author](https://img.shields.io/badge/Author-Mayank_Raj-orange?style=for-the-badge&logo=github)](https://github.com/M20A03)
+![Maintenance](https://img.shields.io/badge/Maintained-Yes-success?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)
 
----
-
-## 🌐 Live Deployment & Links
-
-- 🔗 **Production URL**: [https://angappbackery-a2e42.web.app](https://angappbackery-a2e42.web.app)
-- 🐙 **GitHub Repository**: [https://github.com/M20A03/Cake-Heaven](https://github.com/M20A03/Cake-Heaven)
+</div>
 
 ---
 
-## 🏛️ System Architecture
+## 📖 Overview
 
-```mermaid
-graph TD
-    subgraph UI & Design System ["🎨 Design Tokens & Zero-FOUC"]
-        TOKENS["_tokens.scss\n(8px Grid, WCAG AA, Semantic Colors)"]
-        INLINE["index.html Anti-FOUC Script\n(Pre-DOM Theme Execution)"]
-        THEME["ThemeService (Angular Signals)"]
-        TOAST["ToastNotificationBus (app-toast)"]
-        SKELETON["app-skeleton (Zero CLS)"]
-    end
+Next-generation confectionery ordering experience with real-time Firebase backend, custom tier cake builder, and artisanal visual aesthetics.
 
-    subgraph Data & Business Logic ["🛡️ Fortress & Error Annihilator"]
-        FETCHER["lib/fetcher.ts\n(Exponential Backoff + Jitter)"]
-        ERR["GlobalErrorHandler\n(Firebase Code Translator)"]
-        CART["CartService (Signals + Total Computations)"]
-        FS["FirestoreService\n(SWR Cache + Idempotent Orders)"]
-    end
+## 🚀 Live Demo & Production URL
 
-    subgraph Routing Layer ["🧭 Stateful Routing"]
-        GUARDS["authGuard & geoGuard"]
-        MODAL["Product Quick-View Modal\n(Intercepted & Deep-Linked)"]
-        PARAMS["URL Query Synchronization\n(?category=...&search=...&sort=...)"]
-    end
+Experience the live, active production deployment in your browser:
 
-    subgraph DevOps & Automation ["⚙️ CI/CD & Security"]
-        RULES["firestore.rules (Schema Validation)"]
-        VAL["scripts/validate-env.mjs"]
-        CI[".github/workflows/deploy.yml"]
-        HOOKS[".husky/pre-commit & .lintstagedrc.json"]
-    end
+> 🌐 **Verified Active Production Link:**  
+> **[https://angappbackery-216fe.web.app/](https://angappbackery-216fe.web.app/)**
 
-    INLINE --> TOKENS
-    THEME --> TOKENS
-    PARAMS --> FS
-    GUARDS --> ROUTER[Angular Router]
-    ROUTER --> MODAL
-    CART --> FS
-    FETCHER --> ERR
-    FS --> RULES
-```
+*Status:* `200 OK — Production Active & Connected`
+
 
 ---
 
-## ✨ Key Architectural Highlights
+## ✨ Key Features
 
-### 1. 🛡️ Business Logic Fortress & Idempotency
-- **Anti-Double-Submission**: Every order payload includes a cryptographically unique `idempotencyKey` (UUIDv4) paired with client-side button state locking.
-- **SWR (Stale-While-Revalidate) Catalog**: Renders cached menus from `localStorage` in sub-100ms while asynchronously synchronizing fresh inventory from Firestore.
-- **Resilient Network Layer**: Custom `resilientFetch` utility featuring exponential backoff with full jitter and `AbortController` timeout mechanics.
-
-### 2. 🧭 Next-Level Stateful Routing
-- **URL Parameter Synchronization**: Search strings, category filters, and sorting parameters seamlessly sync bi-directionally with the URL query parameters (`/products?category=Velvet&sort=rating&search=royal`).
-- **Deep-Linked Intercepted Modals**: Quick-view modal supports direct shareable links (`?modal=1`) without reloading or destroying background grid state.
-- **Functional Route Guards**: Timezone/locale-aware `geoGuard` and guest session `authGuard`.
-
-### 3. 🎨 Zero-FOUC Design Tokens & Dark Mode
-- **Zero-FOUC Execution**: Inlined `<head>` script inspects `localStorage` and system `prefers-color-scheme` before DOM/CSS parsing to prevent theme flashing.
-- **Strict Design System**: Centralized `_tokens.scss` enforcing an 8px/4px spatial grid, modular typography scale, and WCAG 2.1 AA compliant contrast ratios.
-
-### 4. 🚨 Error & Memory Annihilation
-- **Global Error Handler**: Application-level `GlobalErrorHandler` intercepts unhandled runtime exceptions and transforms raw Firebase error codes (`permission-denied`, `unavailable`, `resource-exhausted`) into user-friendly toasts.
-- **Memory Safety**: Subscription lifecycles bound via `takeUntilDestroyed(this.destroyRef)` to eliminate memory leaks.
-
-### 5. ⚙️ DevOps & Multi-Stage CI/CD
-- **Automated Pipeline**: `.github/workflows/deploy.yml` with Quality Gates (Env validation, strict TypeScript check, production build) -> PR Staging Deployment -> Production Promotion.
-- **Git Hooks**: Pre-commit hooks via Husky and `lint-staged`.
-- **Database Rules**: Schema-validated and quantity-constrained rules in `firestore.rules`.
+- **Artisanal dessert catalog with high-resolution imagery and fallback SVG placeholders**
+- **Dynamic custom cake configurator (flavor, tier, frosting, custom lettering)**
+- **Integrated Firebase real-time database for menu availability and ordering**
+- **Velvety smooth page transitions and micro-animated cart notifications**
+- **Streamlined single-page checkout optimized for fast mobile orders**
 
 ---
 
-## 🛠️ Tech Stack & Tooling
+## 📱 2026 Spatial Web & Mobile Viewport Specifications
 
-- **Frontend Framework**: Angular 21 (Standalone Components, Signals, View Transitions)
-- **Language**: TypeScript 5.9 (Strict Mode Enabled)
-- **Styling**: SCSS, CSS Custom Properties (Tokens), Glassmorphism, Responsive Grid
-- **Database & Hosting**: Cloud Firestore, Firebase Hosting
-- **CI/CD & DevOps**: GitHub Actions, Husky, Lint-Staged, Node.js 20
+- **Precision Viewport Scaling:** Responsive mobile layout with 12px gutter margins, clamp font scaling, and 48px minimum touch ergonomics.
+- **Touch Ergonomics:** Enforces standard 48px minimum interactive tap boundaries across all buttons, inputs, and navigation drawers.
+- **Hardware Acceleration:** Zero image-layout shifts, GPU-accelerated micro-animations, and fluid 60fps transitions.
+- **Notch & Safe Area Compliance:** Dynamic insets utilizing `padding-bottom: max(16px, env(safe-area-inset-bottom))`.
 
 ---
 
-## 🚀 Local Development Setup
+## 🛠️ Tech Stack & Architecture
+
+| Layer | Technology |
+| :--- | :--- |
+| **Framework / Runtime** | `Angular / TypeScript` |
+| **Styling & Design System** | `Tailored Pastry Design System` |
+| **Deployment & Hosting** | `Firebase Hosting` |
+| **Repository** | [https://github.com/M20A03/Cake-Heaven](https://github.com/M20A03/Cake-Heaven) |
+| **Author** | [Mayank Raj (@M20A03)](https://github.com/M20A03) |
+
+---
+
+## 💻 Getting Started Locally
+
+### Prerequisites
+- Node.js (v18.0.0 or higher) / Python 3.10+ (where applicable)
+- Git installed on your system
+
+### Installation & Run
 
 ```bash
-# 1. Clone Repository
 git clone https://github.com/M20A03/Cake-Heaven.git
 cd Cake-Heaven
-
-# 2. Install Dependencies
 npm install
-
-# 3. Start Local Dev Server
-npm run start
-# Navigate to http://localhost:4200/
-
-# 4. Build for Production
-npm run build
+npm start
 ```
 
 ---
 
-## 📄 License
-MIT License © 2026 Cake Heaven Bakery. Handcrafted with ❤️.
+## 👤 Author & Maintainer
+
+**Mayank Raj**  
+- **GitHub:** [@M20A03](https://github.com/M20A03)
+- **Email:** `mayankrajgupta01@gmail.com`
+
+---
+
+<div align="center">
+<sub>Crafted with precision • Production-Ready • 2026 Spatial Experience</sub>
+</div>
