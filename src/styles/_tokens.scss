@@ -49,12 +49,12 @@
 
   /* Safe Area Insets for Mobile */
   --safe-area-top: env(safe-area-inset-top, 0px);
-  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-bottom: max(16px, env(safe-area-inset-bottom, 16px));
   --safe-area-left: env(safe-area-inset-left, 0px);
   --safe-area-right: env(safe-area-inset-right, 0px);
 
   /* Touch Targets (WCAG 2.1 AAA & AA compliance) */
-  --touch-target-min: 44px;
+  --touch-target-min: 48px;
 
   /* --- Border Radius Scale --- */
   --radius-sm: 4px;
@@ -70,17 +70,17 @@
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-spring: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-  /* --- Light Theme (Default) --- */
-  --color-primary: #e63946;
-  --color-primary-hover: #d62828;
-  --color-primary-light: #ffccd5;
-  --color-primary-subtle: #fff0f3;
+  /* --- Light Theme (Artisanal Rose & Gold Leaf) --- */
+  --color-primary: #fb7185;
+  --color-primary-hover: #f43f5e;
+  --color-primary-light: #fecdd3;
+  --color-primary-subtle: #fdf2f8;
 
-  --color-secondary: #f77f00;
-  --color-secondary-hover: #d66800;
+  --color-secondary: #f59e0b;
+  --color-secondary-hover: #d97706;
 
-  --color-accent: #ffb703;
-  --color-accent-hover: #e09f00;
+  --color-accent: #f59e0b;
+  --color-accent-hover: #d97706;
 
   --color-success: #2a9d8f;
   --color-success-hover: #21867a;
