@@ -1,99 +1,261 @@
 <div class="order-page container">
   <div class="page-header">
-    <span class="badge-subtitle">Express Bakery Checkout</span>
-    <h1 class="page-title">Place Your Gourmet Order</h1>
-    <p class="page-subtitle">Freshly baked, beautifully packaged, and safely delivered directly to your doorstep.</p>
+    <span class="badge-subtitle">Express Gourmet Kitchen</span>
+    <h1 class="page-title">Custom Cake Builder & Checkout</h1>
+    <p class="page-subtitle">Handcraft your dream celebration cake with live 3D layer preview, Belgian ingredients, and guaranteed time-slot delivery.</p>
   </div>
 
-  @if (isOrderSuccess()) {
-    <!-- Success Confirmation View -->
+  @if (isOrderSuccess() && confirmedReceipt()) {
+    <!-- Itemized Order Confirmation Receipt Modal / Card -->
     <div class="success-card card animate-fade-in">
-      <div class="success-icon">🎉</div>
-      <h2>Order Placed Successfully!</h2>
+      <div class="success-badge-icon">🎂</div>
+      <h2>Order Confirmed & Scheduled!</h2>
       <p class="order-ref">Order Reference: <strong>#{{ lastOrderId() }}</strong></p>
-      <p class="success-desc">
-        Thank you for ordering with Cake Heaven! Our chef is already hand-crafting your freshly baked cake.
-        You can track the live baking and delivery status at any time.
-      </p>
+      
+      <!-- Delivery ETA Countdown Banner -->
+      <div class="eta-banner">
+        <div class="eta-time">
+          <span class="eta-label">Estimated Delivery Window</span>
+          <strong>{{ confirmedReceipt().estimatedArrival }}</strong>
+        </div>
+        <div class="eta-status">
+          <span class="status-pulse"></span>
+          <span>Chef Prep & Thermal Packaging Scheduled</span>
+        </div>
+      </div>
+
+      <!-- Itemized Receipt Summary -->
+      <div class="receipt-breakdown">
+        <h3>Itemized Order Summary</h3>
+        <div class="receipt-row">
+          <span>{{ confirmedReceipt().cakeName }}</span>
+          <strong>₹{{ (confirmedReceipt().totalAmount - (selectedSlot.fee || 0)).toFixed(2) }}</strong>
+        </div>
+        @if (confirmedReceipt().customDetails?.pipedMessage) {
+          <div class="receipt-row text-muted" style="font-size: 0.85rem;">
+            <span>Custom Piped Inscription:</span>
+            <em>"{{ confirmedReceipt().customDetails.pipedMessage }}"</em>
+          </div>
+        }
+        <div class="receipt-row">
+          <span>Delivery Time Slot ({{ confirmedReceipt().deliverySlot }})</span>
+          <span>{{ selectedSlot.fee === 0 ? 'FREE' : '₹' + selectedSlot.fee.toFixed(2) }}</span>
+        </div>
+        <div class="receipt-row grand-total-row">
+          <span>Total Paid / Payable</span>
+          <strong>₹{{ confirmedReceipt().totalAmount.toFixed(2) }}</strong>
+        </div>
+      </div>
+
+      <div class="delivery-address-summary">
+        <span>Delivery To:</span>
+        <strong>{{ confirmedReceipt().customerName }} ({{ confirmedReceipt().customerPhone }})</strong>
+        <p>{{ confirmedReceipt().deliveryAddress }}</p>
+      </div>
+
       <div class="success-actions">
         <button type="button" class="btn btn-primary" (click)="trackOrder()">
-          Live Order Tracking →
+          Track Live Baking Status →
         </button>
         <button type="button" class="btn btn-outline" (click)="isOrderSuccess.set(false)">
-          Order Another Cake
+          Customize Another Cake
         </button>
       </div>
     </div>
   } @else {
-    <!-- Main Order Layout: Grid with Cart Summary & Form -->
+    <!-- Main Interactive Customizer & Delivery Layout -->
     <div class="order-grid">
-      <!-- Left Column: Cart Summary -->
-      <div class="cart-summary-card card">
+      
+      <!-- Left Column: Live 3D/Layered Cake Visualizer & Customizer Steps -->
+      <div class="customizer-card card">
         <div class="card-header">
-          <h3>Your Basket Summary</h3>
-          @if (!cartService.isEmpty()) {
-            <button type="button" class="clear-btn" (click)="cartService.clearCart()">Clear</button>
-          }
+          <h3>Interactive Cake Builder</h3>
+          <span class="live-tag">● Live Layer Preview</span>
         </div>
 
-        @if (cartService.isEmpty()) {
-          <div class="empty-cart-hint">
-            <span class="cart-emoji">🛒</span>
-            <p>Your basket is currently empty.</p>
-            <small>Select from our menu or customize a cake below.</small>
-          </div>
-        } @else {
-          <div class="cart-items-list">
-            @for (item of cartService.items(); track item.id) {
-              <div class="cart-item">
-                <img [src]="item.image" [alt]="item.name" class="cart-item-img" />
-                <div class="cart-item-info">
-                  <h4 class="cart-item-name">{{ item.name }}</h4>
-                  <p class="cart-item-price">₹{{ item.price.toFixed(2) }}</p>
-                </div>
-                <div class="cart-item-stepper">
-                  <button type="button" (click)="cartService.updateQuantity(item.id, -1)">−</button>
-                  <span>{{ item.quantity }}</span>
-                  <button type="button" (click)="cartService.updateQuantity(item.id, 1)">+</button>
-                </div>
-                <button type="button" class="remove-btn" (click)="cartService.removeItem(item.id)" title="Remove">✕</button>
+        <!-- 3D Layered Cake Visual Preview Canvas -->
+        <div class="cake-canvas-wrap">
+          <div class="cake-canvas">
+            <!-- Plate / Stand -->
+            <div class="cake-stand"></div>
+
+            <!-- Cake Sponge Base Layer -->
+            <div class="cake-layer base-layer" [style.background-color]="selectedBase.color">
+              <span class="layer-badge">{{ selectedBase.name }}</span>
+            </div>
+
+            <!-- Frosting Cream Coat with Drips -->
+            <div class="cake-layer frosting-layer" [style.background-color]="selectedFrosting.color">
+              <div class="frosting-drips">
+                <span [style.background-color]="selectedFrosting.color"></span>
+                <span [style.background-color]="selectedFrosting.color"></span>
+                <span [style.background-color]="selectedFrosting.color"></span>
+                <span [style.background-color]="selectedFrosting.color"></span>
+              </div>
+            </div>
+
+            <!-- Toppings on Top -->
+            <div class="cake-toppings">
+              <span class="topping-emoji">{{ selectedTopping.emoji }}</span>
+              <span class="topping-emoji secondary">{{ selectedTopping.emoji }}</span>
+              <span class="topping-emoji tertiary">{{ selectedTopping.emoji }}</span>
+            </div>
+
+            <!-- Piped Message on Top -->
+            @if (pipedMessage.trim()) {
+              <div class="cake-piped-text">
+                "{{ pipedMessage }}"
               </div>
             }
           </div>
 
-          <div class="cart-totals">
-            <div class="total-row">
-              <span>Subtotal</span>
-              <span>₹{{ cartService.subtotal().toFixed(2) }}</span>
-            </div>
-            <div class="total-row">
-              <span>Delivery Fee</span>
-              <span>{{ cartService.deliveryFee() === 0 ? 'FREE' : '₹' + cartService.deliveryFee().toFixed(2) }}</span>
-            </div>
-            <div class="total-row grand-total">
-              <span>Total Payable</span>
-              <span>₹{{ cartService.total().toFixed(2) }}</span>
-            </div>
+          <div class="preview-caption">
+            <span>{{ selectedWeight.weight }} · {{ selectedBase.name }}</span>
+            <strong>₹{{ customCakeBaseTotal }}</strong>
           </div>
-        }
+        </div>
 
-        <div class="bakery-perks">
-          <div class="perk-item">✓ Zero Preservatives & 100% Fresh</div>
-          <div class="perk-item">✓ Contactless Thermal Insulated Delivery</div>
-          <div class="perk-item">✓ Free Custom Message Piping Included</div>
+        <!-- Step 1: Base Selection -->
+        <div class="step-group">
+          <label class="step-title">1. Choose Sponge Base</label>
+          <div class="chip-grid">
+            @for (base of bases; track base.id) {
+              <button
+                type="button"
+                class="choice-chip"
+                [class.active]="selectedBase.id === base.id"
+                (click)="selectedBase = base"
+              >
+                <span class="color-dot" [style.background-color]="base.color"></span>
+                <span class="chip-label">{{ base.name }}</span>
+                <span class="chip-price">₹{{ base.price }}</span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Step 2: Frosting Selection -->
+        <div class="step-group">
+          <label class="step-title">2. Choose Cream & Frosting</label>
+          <div class="chip-grid">
+            @for (frosting of frostings; track frosting.id) {
+              <button
+                type="button"
+                class="choice-chip"
+                [class.active]="selectedFrosting.id === frosting.id"
+                (click)="selectedFrosting = frosting"
+              >
+                <span class="color-dot" [style.background-color]="frosting.color"></span>
+                <span class="chip-label">{{ frosting.name }}</span>
+                <span class="chip-price">{{ frosting.price === 0 ? 'Included' : '+₹' + frosting.price }}</span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Step 3: Signature Toppings -->
+        <div class="step-group">
+          <label class="step-title">3. Pick Artisanal Topping</label>
+          <div class="chip-grid">
+            @for (top of toppings; track top.id) {
+              <button
+                type="button"
+                class="choice-chip"
+                [class.active]="selectedTopping.id === top.id"
+                (click)="selectedTopping = top"
+              >
+                <span class="chip-emoji">{{ top.emoji }}</span>
+                <span class="chip-label">{{ top.name }}</span>
+                <span class="chip-price">+₹{{ top.price }}</span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Step 4: Size & Weight -->
+        <div class="step-group">
+          <label class="step-title">4. Select Cake Weight</label>
+          <div class="chip-grid weights-grid">
+            @for (w of weights; track w.weight) {
+              <button
+                type="button"
+                class="choice-chip"
+                [class.active]="selectedWeight.weight === w.weight"
+                (click)="selectedWeight = w"
+              >
+                <span class="chip-label">{{ w.label }}</span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Step 5: Free Custom Message Piping -->
+        <div class="step-group">
+          <label class="step-title" for="pipedMessage">5. Message Piped on Cake (Free)</label>
+          <input
+            type="text"
+            id="pipedMessage"
+            [(ngModel)]="pipedMessage"
+            maxlength="30"
+            placeholder="e.g., Happy 25th Birthday Rhea! ❤️"
+            class="piping-input"
+          />
         </div>
       </div>
 
-      <!-- Right Column: Delivery Form Card -->
+      <!-- Right Column: Delivery Slots, Live Price Breakdown & Recipient Details -->
       <div class="order-form-card card">
         <div class="card-header">
-          <h3>Recipient & Delivery Details</h3>
+          <h3>Delivery Slot & Final Checkout</h3>
         </div>
 
-        <form (ngSubmit)="submitOrder()" #orderForm="ngForm" novalidate>
+        <!-- Step 6: Delivery Time Slots with Dynamic Surcharge -->
+        <div class="step-group">
+          <label class="step-title">6. Select Delivery Time Slot</label>
+          <div class="slots-list">
+            @for (slot of deliverySlots; track slot.id) {
+              <button
+                type="button"
+                class="slot-card"
+                [class.active]="selectedSlot.id === slot.id"
+                (click)="selectedSlot = slot"
+              >
+                <div class="slot-info">
+                  <strong>{{ slot.name }}</strong>
+                  <span class="slot-eta">ETA: {{ slot.eta }}</span>
+                </div>
+                <span class="slot-badge" [class.free-badge]="slot.fee === 0">{{ slot.badge }}</span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Live Price Calculation Breakdown Card -->
+        <div class="cost-calculator-card">
+          <h4>Price Breakdown</h4>
+          <div class="calc-row">
+            <span>Base + Frosting + Toppings</span>
+            <span>₹{{ selectedBase.price + selectedFrosting.price + selectedTopping.price }}</span>
+          </div>
+          <div class="calc-row">
+            <span>Weight Multiplier ({{ selectedWeight.weight }})</span>
+            <span>{{ selectedWeight.multiplier }}x</span>
+          </div>
+          <div class="calc-row">
+            <span>Delivery Time Slot</span>
+            <span>{{ selectedSlot.fee === 0 ? 'FREE' : '₹' + selectedSlot.fee.toFixed(2) }}</span>
+          </div>
+          <div class="calc-row grand-total-calc">
+            <span>Total Payable Amount</span>
+            <strong>₹{{ totalPayable.toFixed(2) }}</strong>
+          </div>
+        </div>
+
+        <!-- Recipient Delivery Form -->
+        <form (ngSubmit)="submitOrder()" #orderForm="ngForm" novalidate class="delivery-form">
           <div class="form-row">
             <div class="form-group">
-              <label for="name">Full Name <span class="required">*</span></label>
+              <label for="name">Recipient Name <span class="required">*</span></label>
               <input
                 type="text"
                 id="name"
@@ -101,16 +263,16 @@
                 [(ngModel)]="order.name"
                 #nameModel="ngModel"
                 required
-                placeholder="e.g. John Doe"
+                placeholder="e.g. Priya Sen"
                 [class.is-invalid]="nameModel.invalid && nameModel.touched"
               />
               @if (nameModel.invalid && nameModel.touched) {
-                <span class="field-error">Full name is required.</span>
+                <span class="field-error">Recipient name is required.</span>
               }
             </div>
 
             <div class="form-group">
-              <label for="phone">Phone Number <span class="required">*</span></label>
+              <label for="phone">Contact Mobile Number <span class="required">*</span></label>
               <input
                 type="tel"
                 id="phone"
@@ -119,43 +281,17 @@
                 #phoneModel="ngModel"
                 required
                 pattern="[0-9]{10}"
-                placeholder="10-digit mobile number"
+                placeholder="10-digit phone number"
                 [class.is-invalid]="phoneModel.invalid && phoneModel.touched"
               />
               @if (phoneModel.invalid && phoneModel.touched) {
-                <span class="field-error">Valid 10-digit phone number is required.</span>
+                <span class="field-error">Valid 10-digit number is required.</span>
               }
             </div>
           </div>
 
-          @if (cartService.isEmpty()) {
-            <div class="form-row">
-              <div class="form-group">
-                <label for="cake">Select Cake Flavor <span class="required">*</span></label>
-                <select id="cake" name="cake" [(ngModel)]="order.cake" required>
-                  @for (cake of availableCakes; track cake) {
-                    <option [value]="cake">{{ cake }}</option>
-                  }
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="quantity">Quantity (1 - 10) <span class="required">*</span></label>
-                <input
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  [(ngModel)]="order.quantity"
-                  min="1"
-                  max="10"
-                  required
-                />
-              </div>
-            </div>
-          }
-
           <div class="form-group">
-            <label for="address">Complete Delivery Address <span class="required">*</span></label>
+            <label for="address">Delivery Street Address <span class="required">*</span></label>
             <textarea
               id="address"
               name="address"
@@ -163,7 +299,7 @@
               #addressModel="ngModel"
               rows="3"
               required
-              placeholder="Flat/House No., Street Name, Landmark, City & Pincode"
+              placeholder="Flat/House No., Building, Landmark & Pincode"
               [class.is-invalid]="addressModel.invalid && addressModel.touched"
             ></textarea>
             @if (addressModel.invalid && addressModel.touched) {
@@ -172,17 +308,17 @@
           </div>
 
           <div class="form-group">
-            <label for="notes">Special Message or Instructions (Optional)</label>
+            <label for="notes">Special Chef Request / Candle Count (Optional)</label>
             <textarea
               id="notes"
               name="notes"
               [(ngModel)]="order.notes"
               rows="2"
-              placeholder="e.g., Happy Birthday Anya! (Add 5 candles, please)"
+              placeholder="e.g. Please add 5 birthday candles and keep it less sweet."
             ></textarea>
           </div>
 
-          <!-- Submit Button with Idempotency & Loading Protection -->
+          <!-- Final Submit Button -->
           <button
             type="submit"
             class="btn btn-primary submit-btn"
@@ -190,13 +326,14 @@
           >
             @if (isSubmitting()) {
               <span class="spinner"></span>
-              <span>Securing Order...</span>
+              <span>Scheduling Master Baker...</span>
             } @else {
-              <span>Confirm & Place Order →</span>
+              <span>Confirm Order · ₹{{ totalPayable.toFixed(2) }} →</span>
             }
           </button>
         </form>
       </div>
+
     </div>
   }
 </div>
