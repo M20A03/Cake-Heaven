@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "angappbackery-216fe"
-  }
+  },
+  "targets": {
+    "react4-eb851": {
+      "hosting": {
+        "cake-heaven": [
+          "cake-heaven-bakery"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
