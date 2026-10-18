@@ -6,7 +6,6 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "target": "cake-heaven",
     "public": "dist/cake-heaven/browser",
     "ignore": [
       "firebase.json",
