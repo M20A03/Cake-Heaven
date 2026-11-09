@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="cakeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E11D48"/>
+      <stop offset="100%" stop-color="#BE123C"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#FFF1F2"/>
+  <path d="M20 66 L80 66 L74 84 L26 84 Z" fill="#FDA4AF"/>
+  <path d="M24 48 L76 48 L80 66 L20 66 Z" fill="url(#cakeGrad)"/>
+  <path d="M32 32 L68 32 L76 48 L24 48 Z" fill="#FB7185"/>
+  <rect x="47" y="16" width="6" height="16" rx="3" fill="#FDE047"/>
+  <circle cx="50" cy="11" r="4.5" fill="#F97316"/>
+</svg>
