@@ -107,6 +107,22 @@ export class FirestoreService {
   private submittedKeys = new Set<string>();
 
   /**
+   * Get instant default products for immediate zero-latency rendering
+   */
+  getInitialCakes(): CakeProduct[] {
+    if (typeof localStorage !== 'undefined') {
+      try {
+        const local = localStorage.getItem(this.cacheKey);
+        if (local) {
+          const parsed = JSON.parse(local);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+    }
+    return DEFAULT_PRODUCTS;
+  }
+
+  /**
    * Get products with Stale-While-Revalidate (SWR) cache & offline resilience
    */
   getCakes(): Observable<CakeProduct[]> {

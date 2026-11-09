@@ -21,6 +21,24 @@ export const routes: Routes = [
     title: 'Cake Menu & Fresh Bakes | Cake Heaven'
   },
   {
+    path: 'cakes',
+    component: ProductsComponent,
+    canActivate: [geoGuard],
+    title: 'Cake Menu & Fresh Bakes | Cake Heaven'
+  },
+  {
+    path: 'cake',
+    component: ProductsComponent,
+    canActivate: [geoGuard],
+    title: 'Cake Menu & Fresh Bakes | Cake Heaven'
+  },
+  {
+    path: 'menu',
+    component: ProductsComponent,
+    canActivate: [geoGuard],
+    title: 'Cake Menu & Fresh Bakes | Cake Heaven'
+  },
+  {
     path: 'order',
     component: OrderComponent,
     title: 'Express Order & Checkout | Cake Heaven'

@@ -25,8 +25,8 @@ export class ProductsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   // Data & State Signals
-  public allProducts = signal<CakeProduct[]>([]);
-  public isLoading = signal(true);
+  public allProducts = signal<CakeProduct[]>(this.firestoreService.getInitialCakes());
+  public isLoading = signal(false);
   public searchQuery = signal('');
   public selectedCategory = signal<string>('All');
   public sortBy = signal<'popular' | 'price_asc' | 'price_desc' | 'rating'>('popular');
@@ -65,13 +65,19 @@ export class ProductsComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    // 0. Instant render initial products
+    this.allProducts.set(this.firestoreService.getInitialCakes());
+
     // 1. Sync state from URL Query Parameters
     this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
         const cat = params.get('category');
-        if (cat && this.categories.includes(cat)) {
-          this.selectedCategory.set(cat);
+        if (cat) {
+          const matched = this.categories.find(c => c.toLowerCase() === cat.toLowerCase());
+          if (matched) {
+            this.selectedCategory.set(matched);
+          }
         }
 
         const search = params.get('search');
