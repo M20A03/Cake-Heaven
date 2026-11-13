@@ -63,9 +63,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  font-size: var(--font-size-sm);
   flex-shrink: 0;
+
+  .toast-svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .toast-content {

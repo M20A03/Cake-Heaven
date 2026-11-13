@@ -116,8 +116,15 @@
         left: var(--space-3);
         top: 50%;
         transform: translateY(-50%);
-        font-size: var(--font-size-sm);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         color: var(--text-muted);
+
+        .search-svg {
+          width: 16px;
+          height: 16px;
+        }
       }
 
       input {
@@ -351,10 +358,21 @@
   text-align: center;
   padding: var(--space-12) var(--space-6);
 
-  .empty-icon {
-    font-size: 3rem;
-    display: block;
-    margin-bottom: var(--space-3);
+  .empty-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary-subtle);
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+
+    .empty-svg {
+      width: 32px;
+      height: 32px;
+    }
   }
 
   h3 {

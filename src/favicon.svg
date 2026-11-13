@@ -1,15 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <defs>
-    <linearGradient id="cakeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="chGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#E11D48"/>
       <stop offset="100%" stop-color="#BE123C"/>
     </linearGradient>
   </defs>
-  <rect width="100" height="100" rx="22" fill="#FFF1F2"/>
-  <path d="M20 66 L80 66 L74 84 L26 84 Z" fill="#FDA4AF"/>
-  <path d="M24 48 L76 48 L80 66 L20 66 Z" fill="url(#cakeGrad)"/>
-  <path d="M32 32 L68 32 L76 48 L24 48 Z" fill="#FB7185"/>
-  <rect x="47" y="16" width="6" height="16" rx="3" fill="#FDE047"/>
-  <circle cx="50" cy="11" r="4.5" fill="#F97316"/>
+  <rect width="64" height="64" rx="16" fill="url(#chGrad)"/>
+  <!-- Tiered Artisanal Cake Silhouette -->
+  <!-- Candle & Flame -->
+  <path d="M32 12C32 12 34 15 34 16.5C34 17.6 33.1 18.5 32 18.5C30.9 18.5 30 17.6 30 16.5C30 15 32 12 32 12Z" fill="#FDE047"/>
+  <rect x="31" y="19" width="2" height="6" rx="1" fill="#FFFFFF"/>
+  <!-- Top Tier -->
+  <rect x="22" y="25" width="20" height="10" rx="3" fill="#FFFFFF"/>
+  <!-- Middle Tier -->
+  <rect x="16" y="36" width="32" height="11" rx="3" fill="#FFE4E6"/>
+  <!-- Cake Base Stand -->
+  <path d="M12 48H52C52.55 48 53 48.45 53 49V50C53 51.1 52.1 52 51 52H13C11.9 52 11 51.1 11 50V49C11 48.45 11.45 48 12 48Z" fill="#FECDD3"/>
+  <!-- Swirl accents -->
+  <path d="M22 28C24 29.5 26 29.5 28 28C30 26.5 32 26.5 34 28C36 29.5 38 29.5 40 28" stroke="#E11D48" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M16 40C19 42 22 42 25 40C28 38 31 38 34 40C37 42 40 42 43 40C46 38 48 38 48 40" stroke="#BE123C" stroke-width="1.5" stroke-linecap="round"/>
 </svg>
-

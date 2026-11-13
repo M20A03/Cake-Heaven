@@ -189,7 +189,7 @@ export class OrderComponent implements OnInit {
       this.isOrderSuccess.set(true);
       this.cartService.clearCart();
       this.notifications.success(
-        'Order Confirmed! 🎂',
+        'Order Confirmed!',
         `Your handcrafted cake #${orderId.substring(0, 8)} is now scheduled for baking!`
       );
 

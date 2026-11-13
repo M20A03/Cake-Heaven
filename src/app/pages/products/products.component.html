@@ -29,7 +29,12 @@
     <!-- Search Input & Sort Dropdown -->
     <div class="search-sort-group">
       <div class="search-box">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon">
+          <svg class="search-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
         <input
           type="text"
           placeholder="Search by cake name or flavor..."
@@ -133,7 +138,15 @@
     } @else {
       <!-- Empty State -->
       <div class="empty-state card">
-        <span class="empty-icon">🎂</span>
+        <div class="empty-icon-wrap">
+          <svg class="empty-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" />
+            <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1" />
+            <path d="M2 21h20" />
+            <line x1="12" y1="8" x2="12" y2="11" />
+            <circle cx="12" cy="5" r="1" />
+          </svg>
+        </div>
         <h3>No Cakes Found</h3>
         <p>We couldn't find any cakes matching your search criteria.</p>
         <button type="button" class="btn btn-outline" (click)="setCategory('All'); onSearchChange('')">

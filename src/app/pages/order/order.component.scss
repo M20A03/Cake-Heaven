@@ -345,8 +345,20 @@
   }
 
   .success-badge-icon {
-    font-size: 3.5rem;
-    margin-bottom: var(--space-3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    background: rgba(16, 185, 129, 0.12);
+    color: #10B981;
+    margin: 0 auto var(--space-4);
+
+    .success-svg {
+      width: 36px;
+      height: 36px;
+    }
   }
 
   .order-ref {

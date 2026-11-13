@@ -36,7 +36,9 @@
 
 .hero-content {
   .hero-badge {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
@@ -47,6 +49,12 @@
     padding: var(--space-1) var(--space-4);
     border-radius: var(--radius-full);
     margin-bottom: var(--space-3);
+
+    .badge-sparkle-svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
   }
 
   .hero-title {
@@ -184,8 +192,20 @@
       gap: var(--space-2);
       box-shadow: var(--shadow-md);
 
-      .cake-emoji {
-        font-size: 1.5rem;
+      .cake-tag-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        background: var(--color-primary-subtle);
+        color: var(--color-primary);
+        border-radius: var(--radius-md);
+
+        .tag-svg {
+          width: 18px;
+          height: 18px;
+        }
       }
 
       strong {
@@ -227,8 +247,21 @@
     }
 
     .pillar-icon {
-      font-size: 2rem;
-      margin-bottom: var(--space-2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-lg);
+      background: var(--color-primary-subtle);
+      color: var(--color-primary);
+      margin-bottom: var(--space-3);
+      transition: all var(--transition-fast);
+
+      .pillar-svg {
+        width: 24px;
+        height: 24px;
+      }
     }
 
     h3 {
